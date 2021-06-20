@@ -1,0 +1,341 @@
+part of 'pages.dart';
+
+class LoginPage extends StatefulWidget {
+  const LoginPage({Key key}) : super(key: key);
+
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final _keyForm = GlobalKey<FormState>();
+
+  String usernameN, passwordN;
+  bool securer = false;
+  Icon iconSecure = Icon(LineIcons.eye, color: greyColor);
+
+  void checkForm() {
+    final form = _keyForm.currentState;
+    if (form.validate()) {
+      form.save();
+      submitDataLogin();
+    }
+  }
+
+  void submitDataLogin() async {
+    // String urlAPI = 'https://40c17614ccd1.ngrok.io/my-dictionary-server/login.php';
+    // final apiResult = await http.post(
+    //   urlAPI,
+    //   body: {'username': usernameN, 'password': passwordN},
+    // );
+
+    // final data = jsonDecode(apiResult.body);
+
+    // int value = data['value'];
+    // String msg = data['msg'];
+
+    // print(data);
+
+    // // get data respon
+    // String dataUsername = data['username'];
+    // String dataEmail = data['email'];
+    // String dataAddress = data['address'];
+    // String dataGender = data['gender'];
+    // String dataFullName = data['full_name'];
+    // String dataCreatedAt = data['createdAt'];
+    // String dataIdUser = data['id_user'];
+    // String dataProfession = data['profession'];
+
+    // // cek value 1 atau 0 atau 2
+    // if (value == 1) {
+    //   setState(() {
+    //     // set status login menjadi login
+    //     _loginStatus = statusLogin.signIn;
+
+    //     // simpan data ke share preferends
+    //     saveDataPref(value, dataIdUser, dataUsername, dataEmail, dataAddress,
+    //         dataGender, dataFullName, dataCreatedAt, dataProfession);
+    //   });
+    // } else {
+    //   Flushbar(
+    //     backgroundColor: Colors.pink[300],
+    //     padding: EdgeInsets.only(left: 24, top: 16, bottom: 16),
+    //     icon: Icon(Icons.warning),
+    //     messageText: Text('$msg  $value',
+    //         style: GoogleFonts.sourceSansPro(
+    //             color: MyColor().color5, fontSize: 16)),
+    //     duration: Duration(seconds: 3),
+    //   ).show(context);
+    // }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: bgColor,
+      body: Responsive(
+        desktop: desktop(),
+        mobile: mobile(),
+      ),
+    );
+  }
+
+  Widget desktop() {
+    return Form(
+      child: Container(
+        margin: EdgeInsets.symmetric(
+          horizontal: horizontalMargin,
+        ),
+        child: ListView(
+          children: [
+            Text(
+              'Welcome \nBack Explorer!',
+              style: blackTextFont.copyWith(
+                fontSize: 24,
+              ),
+            ),
+            SizedBox(
+              height: 54,
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 16),
+              child: TextFormField(
+                // controller: usernameC,
+                validator: (value) =>
+                    (value.isEmpty) ? 'Please input your username' : null,
+                onSaved: (value) => usernameN = value,
+                cursorColor: greyColor,
+                style: mainTextFont.copyWith(),
+                decoration: InputDecoration(
+                  prefixIcon: Icon(
+                    LineIcons.user,
+                    color: mainColor,
+                  ),
+                  hintText: 'Your Username',
+                  hintStyle: greyTextFont,
+                  labelText: 'Username',
+                  labelStyle: greyTextFont.copyWith(),
+                  errorBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      width: 2,
+                      color: errorColor,
+                    ),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  focusedErrorBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      width: 2,
+                      color: errorColor,
+                    ),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      width: 2,
+                      color: greyColor,
+                    ),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      width: 2,
+                      color: mainColor,
+                    ),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget mobile() {
+    return Form(
+      child: Container(
+        margin: EdgeInsets.symmetric(
+          horizontal: horizontalMargin,
+        ),
+        child: ListView(
+          children: [
+            SizedBox(
+              height: 90,
+            ),
+            Text(
+              'Welcome Back!',
+              style: blackTextFont.copyWith(
+                fontSize: 24,
+              ),
+            ),
+            SizedBox(
+              height: 54,
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 16),
+              child: TextFormField(
+                // controller: usernameC,
+                validator: (value) =>
+                    (value.isEmpty) ? 'Please input your username' : null,
+                onSaved: (value) => usernameN = value,
+                cursorColor: greyColor,
+                style: mainTextFont.copyWith(),
+                decoration: InputDecoration(
+                  prefixIcon: Icon(
+                    LineIcons.user,
+                    color: mainColor,
+                  ),
+                  hintText: 'Your Username',
+                  hintStyle: greyTextFont,
+                  labelText: 'Username',
+                  labelStyle: greyTextFont.copyWith(),
+                  errorBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      width: 2,
+                      color: errorColor,
+                    ),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  focusedErrorBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      width: 2,
+                      color: errorColor,
+                    ),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      width: 2,
+                      color: greyColor,
+                    ),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      width: 2,
+                      color: mainColor,
+                    ),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 16),
+              child: TextFormField(
+                // controller: passwordC,
+                validator: (value) => (value.isEmpty)
+                    ? 'Please input your password'
+                    : (value.length < 6)
+                        ? 'Password length min 6 character'
+                        : null,
+                onSaved: (value) => passwordN = value,
+                onTap: () {
+                  if (securer == true) {
+                    setState(() {
+                      securer = false;
+                      iconSecure = Icon(
+                        LineIcons.eyeSlash,
+                        color: greyColor,
+                      );
+                    });
+                  } else {
+                    setState(() {
+                      securer = true;
+                      iconSecure = Icon(
+                        LineIcons.eye,
+                        color: greyColor,
+                      );
+                    });
+                  }
+                },
+                obscureText: securer,
+                cursorColor: greyColor,
+                style: mainTextFont.copyWith(),
+                decoration: InputDecoration(
+                  suffixIcon: iconSecure,
+                  prefixIcon: Icon(
+                    LineIcons.lock,
+                    color: mainColor,
+                  ),
+                  hintText: 'Your Password',
+                  hintStyle: greyTextFont.copyWith(),
+                  labelText: 'Password',
+                  labelStyle: TextStyle(color: greyColor),
+                  errorBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      width: 2,
+                      color: errorColor,
+                    ),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  focusedErrorBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      width: 2,
+                      color: errorColor,
+                    ),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(width: 2, color: greyColor),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(width: 2, color: mainColor),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+              ),
+            ),
+            Container(
+              alignment: Alignment.centerRight,
+              margin: EdgeInsets.only(top: 8),
+              child: Text(
+                'Forgot password?',
+                style: blackTextFont.copyWith(),
+              ),
+            ),
+            SizedBox(
+              height: 40,
+            ),
+            FloatingActionButton(
+              elevation: 0,
+              backgroundColor: secondColor,
+              splashColor: greyColor,
+              child: Icon(Icons.arrow_forward),
+              onPressed: () {
+                setState(() {
+                  checkForm();
+                });
+              },
+            ),
+            SizedBox(
+              height: 70,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Start fresh now? ',
+                  style: blackTextFont.copyWith(),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Get.toNamed("/register");
+                  },
+                  child: Text(
+                    'Sign Up',
+                    style: mainTextFont.copyWith(
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

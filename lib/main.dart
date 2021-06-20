@@ -1,4 +1,4 @@
-import 'package:elearning_app/ui/pages/main_page.dart';
+import 'package:elearning_app/ui/pages/pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 
@@ -12,10 +12,17 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: MainPage(),
+      home: LoginPage(),
+      getPages: [
+        GetPage(
+          name: "/login",
+          page: () => LoginPage(),
+        ),
+        GetPage(
+          name: "/register",
+          page: () => RegisterPage(),
+        )
+      ],
     );
   }
 }
