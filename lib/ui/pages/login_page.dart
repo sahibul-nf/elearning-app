@@ -10,9 +10,34 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _keyForm = GlobalKey<FormState>();
 
-  String usernameN, passwordN;
+  String emailData;
+  String passwordData;
+
   bool securer = false;
   Icon iconSecure = Icon(LineIcons.eye, color: greyColor);
+
+  var emailController = TextEditingController();
+  var passwordController = TextEditingController();
+
+  void onTappedSuffixIcon() {
+    if (securer == true) {
+      setState(() {
+        securer = false;
+        iconSecure = Icon(
+          LineIcons.eyeSlash,
+          color: greyColor,
+        );
+      });
+    } else {
+      setState(() {
+        securer = true;
+        iconSecure = Icon(
+          LineIcons.eye,
+          color: greyColor,
+        );
+      });
+    }
+  }
 
   void checkForm() {
     final form = _keyForm.currentState;
@@ -97,61 +122,22 @@ class _LoginPageState extends State<LoginPage> {
             SizedBox(
               height: 54,
             ),
-            Container(
-              margin: EdgeInsets.only(top: 16),
-              child: TextFormField(
-                // controller: usernameC,
+            inputField(
+                hintText: 'Your email',
+                labelText: 'Email',
+                prefixIcon: Icon(LineIcons.mailBulk, color: mainColor),
+                userInputController: emailController,
+                savedValue: (value) => emailData = value,
                 validator: (value) =>
-                    (value.isEmpty) ? 'Please input your username' : null,
-                onSaved: (value) => usernameN = value,
-                cursorColor: greyColor,
-                style: mainTextFont.copyWith(),
-                decoration: InputDecoration(
-                  prefixIcon: Icon(
-                    LineIcons.user,
-                    color: mainColor,
-                  ),
-                  hintText: 'Your Username',
-                  hintStyle: greyTextFont,
-                  labelText: 'Username',
-                  labelStyle: greyTextFont.copyWith(),
-                  errorBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      width: 2,
-                      color: errorColor,
-                    ),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  focusedErrorBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      width: 2,
-                      color: errorColor,
-                    ),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      width: 2,
-                      color: greyColor,
-                    ),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      width: 2,
-                      color: mainColor,
-                    ),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
+                    (value.isEmpty) ? 'Please input your email' : null,
               ),
-            ),
           ],
         ),
       ),
     );
   }
 
+  // TODO : mobile()
   Widget mobile() {
     return Form(
       child: Container(
@@ -164,7 +150,7 @@ class _LoginPageState extends State<LoginPage> {
               height: 90,
             ),
             Text(
-              'Welcome Back!',
+              "Welcome Back\nSign In Now!",
               style: blackTextFont.copyWith(
                 fontSize: 24,
               ),
@@ -172,122 +158,33 @@ class _LoginPageState extends State<LoginPage> {
             SizedBox(
               height: 54,
             ),
-            Container(
-              margin: EdgeInsets.only(top: 16),
-              child: TextFormField(
-                // controller: usernameC,
+            inputField(
+                hintText: 'Your email',
+                labelText: 'Email',
+                prefixIcon: Icon(LineIcons.mailBulk, color: mainColor),
+                userInputController: emailController,
+                savedValue: (value) => emailData = value,
                 validator: (value) =>
-                    (value.isEmpty) ? 'Please input your username' : null,
-                onSaved: (value) => usernameN = value,
-                cursorColor: greyColor,
-                style: mainTextFont.copyWith(),
-                decoration: InputDecoration(
-                  prefixIcon: Icon(
-                    LineIcons.user,
-                    color: mainColor,
-                  ),
-                  hintText: 'Your Username',
-                  hintStyle: greyTextFont,
-                  labelText: 'Username',
-                  labelStyle: greyTextFont.copyWith(),
-                  errorBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      width: 2,
-                      color: errorColor,
-                    ),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  focusedErrorBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      width: 2,
-                      color: errorColor,
-                    ),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      width: 2,
-                      color: greyColor,
-                    ),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      width: 2,
-                      color: mainColor,
-                    ),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
+                    (value.isEmpty) ? 'Please input your email' : null,
               ),
-            ),
-            Container(
-              margin: EdgeInsets.only(top: 16),
-              child: TextFormField(
-                // controller: passwordC,
+            inputField(
+                hintText: 'Your password',
+                labelText: 'Password',
+                prefixIcon: Icon(LineIcons.lock, color: mainColor),
+                suffixIcon: GestureDetector(
+                  child: iconSecure,
+                  onTap: () => onTappedSuffixIcon(),
+                ),
+                secure: securer,
+                userInputController: passwordController,
+                savedValue: (value) => passwordData = value,
                 validator: (value) => (value.isEmpty)
                     ? 'Please input your password'
                     : (value.length < 6)
                         ? 'Password length min 6 character'
                         : null,
-                onSaved: (value) => passwordN = value,
-                onTap: () {
-                  if (securer == true) {
-                    setState(() {
-                      securer = false;
-                      iconSecure = Icon(
-                        LineIcons.eyeSlash,
-                        color: greyColor,
-                      );
-                    });
-                  } else {
-                    setState(() {
-                      securer = true;
-                      iconSecure = Icon(
-                        LineIcons.eye,
-                        color: greyColor,
-                      );
-                    });
-                  }
-                },
-                obscureText: securer,
-                cursorColor: greyColor,
-                style: mainTextFont.copyWith(),
-                decoration: InputDecoration(
-                  suffixIcon: iconSecure,
-                  prefixIcon: Icon(
-                    LineIcons.lock,
-                    color: mainColor,
-                  ),
-                  hintText: 'Your Password',
-                  hintStyle: greyTextFont.copyWith(),
-                  labelText: 'Password',
-                  labelStyle: TextStyle(color: greyColor),
-                  errorBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      width: 2,
-                      color: errorColor,
-                    ),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  focusedErrorBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      width: 2,
-                      color: errorColor,
-                    ),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(width: 2, color: greyColor),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(width: 2, color: mainColor),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
+                // onTapped: () => onTappedIcon(),
               ),
-            ),
             Container(
               alignment: Alignment.centerRight,
               margin: EdgeInsets.only(top: 8),
@@ -317,7 +214,7 @@ class _LoginPageState extends State<LoginPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'Start fresh now? ',
+                  'Dont have a account yet? ',
                   style: blackTextFont.copyWith(),
                 ),
                 GestureDetector(
@@ -333,7 +230,70 @@ class _LoginPageState extends State<LoginPage> {
                 )
               ],
             ),
+            SizedBox(
+              height: 20,
+            ),
           ],
+        ),
+      ),
+    );
+  }
+
+  inputField({
+    String hintText = "",
+    String labelText = "",
+    TextEditingController userInputController,
+    Widget prefixIcon,
+    Widget suffixIcon,
+    bool secure = false,
+    String Function(String) validator,
+    void Function(String) savedValue,
+  }) {
+    return Container(
+      height: 60,
+      margin: EdgeInsets.only(top: 16),
+      child: TextFormField(
+        controller: userInputController,
+        validator: validator,
+        onSaved: savedValue,
+        cursorColor: greyColor,
+        obscureText: secure,
+        style: mainTextFont.copyWith(),
+        decoration: InputDecoration(
+          suffixIcon: suffixIcon,
+          prefixIcon: prefixIcon,
+          hintText: hintText,
+          hintStyle: greyTextFont,
+          labelText: labelText,
+          labelStyle: greyTextFont.copyWith(),
+          errorBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              width: 2,
+              color: errorColor,
+            ),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              width: 2,
+              color: errorColor,
+            ),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              width: 2,
+              color: greyColor,
+            ),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              width: 2,
+              color: mainColor,
+            ),
+            borderRadius: BorderRadius.circular(8),
+          ),
         ),
       ),
     );
