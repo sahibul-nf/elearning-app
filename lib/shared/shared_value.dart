@@ -1,4 +1,7 @@
 part of "shared.dart";
 
-var apiURL = "https://elearning-uin-arraniry.herokuapp.com";
-var apiLogin = "/account/login";
+var apiHost = "https://elearning-uin-arraniry.herokuapp.com";
+var loginPath = "/account/login";
+var registerPath = "/account/register";
+
+var apiRegister = Uri.parse(apiHost+registerPath);

@@ -1,4 +1,4 @@
-import 'package:elearning_app/ui/pages/pages.dart';
+import 'package:elearning_app/views/pages/pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 
@@ -11,6 +11,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       home: LoginPage(),
       getPages: [

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:elearning_app/shared/shared.dart';
-import 'package:elearning_app/ui/widgets/widgets.dart';
+import 'package:elearning_app/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/route_manager.dart';

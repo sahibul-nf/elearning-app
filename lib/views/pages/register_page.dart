@@ -1,20 +1,20 @@
 part of 'pages.dart';
 
 class RegisterPage extends StatefulWidget {
-  const RegisterPage({Key key}) : super(key: key);
+  const RegisterPage({Key? key}) : super(key: key);
 
   @override
   _RegisterPageState createState() => _RegisterPageState();
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  // final _keyForm = GlobalKey<FormState>();
+  final _keyForm = GlobalKey<FormState>();
 
-  String firstnameData;
-  String lastnameData;
-  String emailData;
-  String passwordData;
-  String confirmPasswordData;
+  String? firstnameInput;
+  String? lastnameInput;
+  String? emailInput;
+  String? passwordInput;
+  String? confirmPasswordInput;
 
   bool securer = false;
   Icon iconSecure = Icon(LineIcons.eye, color: greyColor);
@@ -45,6 +45,32 @@ class _RegisterPageState extends State<RegisterPage> {
     }
   }
 
+  validateForm() {
+    final form = _keyForm.currentState;
+    if (form!.validate()) {
+      form.save();
+      register();
+    }
+  }
+
+  register() async {
+    var data = {
+    'firstname': firstnameInput,
+    'lastname': lastnameInput,
+    'email': emailInput,
+    'password': passwordInput,
+    'confirm_password': confirmPasswordInput,
+    };
+
+    var req = await http.post(apiRegister, body: data);
+    var res = jsonDecode(req.body);
+
+    int status = res['Status'];
+    print(status);
+    print(res);
+    // result.then
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,27 +98,27 @@ class _RegisterPageState extends State<RegisterPage> {
                 labelText: 'Firstname',
                 prefixIcon: Icon(LineIcons.user, color: mainColor),
                 userInputController: firstnameController,
-                savedValue: (value) => firstnameData = value,
+                savedValue: (value) => firstnameInput = firstnameController.text,
                 validator: (value) =>
-                    (value.isEmpty) ? 'Please input your firstname' : null,
+                    (value!.isEmpty) ? 'Please input your firstname' : null,
               ),
               inputField(
                 hintText: 'Your lastname',
                 labelText: 'Lastname',
                 prefixIcon: Icon(LineIcons.user, color: mainColor),
                 userInputController: lastnameController,
-                savedValue: (value) => lastnameData = value,
+                savedValue: (value) => lastnameInput = lastnameController.text,
                 validator: (value) =>
-                    (value.isEmpty) ? 'Please input your lastname' : null,
+                    (value!.isEmpty) ? 'Please input your lastname' : null,
               ),
               inputField(
                 hintText: 'Your email',
                 labelText: 'Email',
                 prefixIcon: Icon(LineIcons.mailBulk, color: mainColor),
                 userInputController: emailController,
-                savedValue: (value) => emailData = value,
+                savedValue: (value) => emailInput = emailController.text,
                 validator: (value) =>
-                    (value.isEmpty) ? 'Please input your email' : null,
+                    (value!.isEmpty) ? 'Please input your email' : null,
               ),
               inputField(
                 hintText: 'Your password',
@@ -104,8 +130,8 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
                 secure: securer,
                 userInputController: passwordController,
-                savedValue: (value) => passwordData = value,
-                validator: (value) => (value.isEmpty)
+                savedValue: (value) => passwordInput = passwordController.text,
+                validator: (value) => (value!.isEmpty)
                     ? 'Please input your password'
                     : (value.length < 6)
                         ? 'Password length min 6 character'
@@ -121,9 +147,9 @@ class _RegisterPageState extends State<RegisterPage> {
                   onTap: () => onTappedSuffixIcon(),
                 ),
                 secure: securer,
-                userInputController: passwordController,
-                savedValue: (value) => passwordData = value,
-                validator: (value) => (value.isEmpty)
+                userInputController: confirmPasswordController,
+                savedValue: (value) => confirmPasswordInput = confirmPasswordController.text,
+                validator: (value) => (value!.isEmpty)
                     ? 'Please input confirm your password'
                     : (value.length < 6)
                         ? 'Password length min 6 character'
@@ -139,7 +165,8 @@ class _RegisterPageState extends State<RegisterPage> {
                 child: Icon(Icons.arrow_forward),
                 onPressed: () {
                   setState(() {
-                    // checkForm();
+                    validateForm();
+                    // register();
                   });
                 },
               ),
@@ -177,14 +204,14 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   inputField({
-    String hintText = "",
-    String labelText = "",
-    TextEditingController userInputController,
-    Widget prefixIcon,
-    Widget suffixIcon,
+    String? hintText,
+    String? labelText,
+    TextEditingController? userInputController,
+    Widget? prefixIcon,
+    Widget? suffixIcon,
     bool secure = false,
-    String Function(String) validator,
-    void Function(String) savedValue,
+    String? Function(String?)? validator,
+    void Function(String?)? savedValue,
   }) {
     return Container(
       height: 60,

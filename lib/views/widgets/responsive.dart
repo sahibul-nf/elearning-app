@@ -1,12 +1,12 @@
 part of 'widgets.dart';
 
 class Responsive extends StatelessWidget {
-  final Widget mobile;
-  final Widget desktop;
-  final Widget tablet;
+  final Widget? mobile;
+  final Widget? desktop;
+  final Widget? tablet;
 
   Responsive({
-    Key key,
+    Key? key,
     this.mobile,
     this.desktop,
     this.tablet,

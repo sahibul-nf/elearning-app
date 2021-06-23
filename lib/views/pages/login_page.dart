@@ -1,7 +1,7 @@
 part of 'pages.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key key}) : super(key: key);
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -10,8 +10,8 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _keyForm = GlobalKey<FormState>();
 
-  String emailData;
-  String passwordData;
+  String? emailData;
+  String? passwordData;
 
   bool securer = false;
   Icon iconSecure = Icon(LineIcons.eye, color: greyColor);
@@ -41,7 +41,7 @@ class _LoginPageState extends State<LoginPage> {
 
   void checkForm() {
     final form = _keyForm.currentState;
-    if (form.validate()) {
+    if (form!.validate()) {
       form.save();
       submitDataLogin();
     }
@@ -113,8 +113,11 @@ class _LoginPageState extends State<LoginPage> {
         ),
         child: ListView(
           children: [
+            SizedBox(
+              height: 90,
+            ),
             Text(
-              'Welcome \nBack Explorer!',
+              "Welcome Back\nSign In Now!",
               style: blackTextFont.copyWith(
                 fontSize: 24,
               ),
@@ -127,10 +130,76 @@ class _LoginPageState extends State<LoginPage> {
                 labelText: 'Email',
                 prefixIcon: Icon(LineIcons.mailBulk, color: mainColor),
                 userInputController: emailController,
-                savedValue: (value) => emailData = value,
+                savedValue: (value) => emailData = value!,
                 validator: (value) =>
-                    (value.isEmpty) ? 'Please input your email' : null,
+                    (value!.isEmpty) ? 'Please input your email' : null,
               ),
+            inputField(
+                hintText: 'Your password',
+                labelText: 'Password',
+                prefixIcon: Icon(LineIcons.lock, color: mainColor),
+                suffixIcon: GestureDetector(
+                  child: iconSecure,
+                  onTap: () => onTappedSuffixIcon(),
+                ),
+                secure: securer,
+                userInputController: passwordController,
+                savedValue: (value) => passwordData = value!,
+                validator: (value) => (value!.isEmpty)
+                    ? 'Please input your password'
+                    : (value.length < 6)
+                        ? 'Password length min 6 character'
+                        : null,
+                // onTapped: () => onTappedIcon(),
+              ),
+            Container(
+              alignment: Alignment.centerRight,
+              margin: EdgeInsets.only(top: 8),
+              child: Text(
+                'Forgot password?',
+                style: blackTextFont.copyWith(),
+              ),
+            ),
+            SizedBox(
+              height: 40,
+            ),
+            FloatingActionButton(
+              elevation: 0,
+              backgroundColor: secondColor,
+              splashColor: greyColor,
+              child: Icon(Icons.arrow_forward),
+              onPressed: () {
+                setState(() {
+                  checkForm();
+                });
+              },
+            ),
+            SizedBox(
+              height: 70,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Dont have a account yet? ',
+                  style: blackTextFont.copyWith(),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Get.toNamed("/register");
+                  },
+                  child: Text(
+                    'Sign Up',
+                    style: mainTextFont.copyWith(
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                )
+              ],
+            ),
+            SizedBox(
+              height: 20,
+            ),
           ],
         ),
       ),
@@ -163,9 +232,9 @@ class _LoginPageState extends State<LoginPage> {
                 labelText: 'Email',
                 prefixIcon: Icon(LineIcons.mailBulk, color: mainColor),
                 userInputController: emailController,
-                savedValue: (value) => emailData = value,
+                savedValue: (value) => emailData = value!,
                 validator: (value) =>
-                    (value.isEmpty) ? 'Please input your email' : null,
+                    (value!.isEmpty) ? 'Please input your email' : null,
               ),
             inputField(
                 hintText: 'Your password',
@@ -177,8 +246,8 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 secure: securer,
                 userInputController: passwordController,
-                savedValue: (value) => passwordData = value,
-                validator: (value) => (value.isEmpty)
+                savedValue: (value) => passwordData = value!,
+                validator: (value) => (value!.isEmpty)
                     ? 'Please input your password'
                     : (value.length < 6)
                         ? 'Password length min 6 character'
@@ -240,14 +309,14 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   inputField({
-    String hintText = "",
-    String labelText = "",
-    TextEditingController userInputController,
-    Widget prefixIcon,
-    Widget suffixIcon,
+    String? hintText,
+    String? labelText,
+    TextEditingController? userInputController,
+    Widget? prefixIcon,
+    Widget? suffixIcon,
     bool secure = false,
-    String Function(String) validator,
-    void Function(String) savedValue,
+    String? Function(String?)? validator,
+    void Function(String?)? savedValue,
   }) {
     return Container(
       height: 60,
