@@ -75,6 +75,7 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Form(
+        key: _keyForm,
         child: Container(
           padding: EdgeInsets.symmetric(
             horizontal: horizontalMargin,
@@ -214,7 +215,7 @@ class _RegisterPageState extends State<RegisterPage> {
     void Function(String?)? savedValue,
   }) {
     return Container(
-      height: 60,
+      height: 80,
       margin: EdgeInsets.only(top: 16),
       child: TextFormField(
         controller: userInputController,

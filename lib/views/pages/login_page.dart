@@ -209,6 +209,7 @@ class _LoginPageState extends State<LoginPage> {
   // TODO : mobile()
   Widget mobile() {
     return Form(
+      key: _keyForm,
       child: Container(
         margin: EdgeInsets.symmetric(
           horizontal: horizontalMargin,

@@ -23,5 +23,9 @@ class User {
   static Future<User> connectToRegisterAPI() async {
     final result = await http.post(apiRegister);
     var response = jsonDecode(result.body);
+
+    print(response);
+
+    return response;
   }
 }
