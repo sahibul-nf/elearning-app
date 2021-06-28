@@ -3,11 +3,9 @@ part of 'pages.dart';
 class HomePage extends StatelessWidget {
   HomePage({Key? key}) : super(key: key);
 
+  final _keyForm = GlobalKey<FormState>();
   User user = Get.put(User());
 
-  // List<PopupMenuEntry<dynamic>> items = [
-
-  // ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,10 +27,12 @@ class HomePage extends StatelessWidget {
           GestureDetector(
             child: LineIcon(LineIcons.plus, color: blackColor),
             onTap: () {
-              // showMenu(context: context, position: RelativeRect.fill, items: ChoiseClassOption());
+              Get.defaultDialog(
+                title: '',
+                content: ChoiseClassOption(),
+              );
             },
           ),
-          Menu
           SizedBox(width: 30),
           Container(
             child: Center(
@@ -61,17 +61,135 @@ class HomePage extends StatelessWidget {
   }
 }
 
-class ChoiseClassOption extends StatelessWidget {
-  const ChoiseClassOption({Key? key}) : super(key: key);
+class ChoiseClassOption extends StatefulWidget {
+  ChoiseClassOption({Key? key}) : super(key: key);
+
+  @override
+  _ChoiseClassOptionState createState() => _ChoiseClassOptionState();
+}
+
+class _ChoiseClassOptionState extends State<ChoiseClassOption> {
+  final _keyForm = GlobalKey<FormState>();
+
+  var titleController = TextEditingController();
+
+  var emailController = TextEditingController();
+
+  String? titleInput;
+
+  String? emailInput;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 200,
+      child: Column(
+        // crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          TextButton(
+            onPressed: () {
+              Get.defaultDialog(
+                title: '',
+                content: formInviteUser(),
+              );
+            },
+            child: Text(
+              "Invite user",
+              style: blackTextFont.copyWith(fontSize: 18),
+            ),
+          ),
+          SizedBox(height: 20),
+          TextButton(
+            onPressed: () {
+              Get.defaultDialog(
+                title: '',
+                content: formCreateClass(),
+              );
+            },
+            child: Text(
+              "Create class",
+              style: blackTextFont.copyWith(fontSize: 18),
+            ),
+          ),
+          SizedBox(height: 20),
+        ],
+      ),
+    );
+  }
+
+  void validateForm() {
+    ClassService classService = Get.put(ClassService());
+    final form = _keyForm.currentState;
+
+    if (form!.validate()) {
+      form.save();
+
+      // ClassService.classes();
+      classService.createNewClass(
+        className: titleInput,
+      );
+    }
+  }
+
+  Widget formCreateClass() {
+    return Form(
+      key: _keyForm,
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 10),
+        child: Column(
+          children: [
+            Text(
+              "Create class",
+              style: blackTextFont.copyWith(fontSize: 18),
+            ),
+            InputField(
+              hintText: 'New class name',
+              labelText: 'Title',
+              prefixIcon: Icon(LineIcons.edit, color: mainColor),
+              userInputController: titleController,
+              savedValue: (value) => titleInput = value!,
+              validator: (value) =>
+                  (value!.isEmpty) ? 'Please input title' : null,
+            ),
+            PrimaryButton(
+              text: "Done",
+              onPress: () {
+                setState(() {
+                  validateForm();
+                });
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget formInviteUser() {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 10),
       child: Column(
         children: [
-          Text("Join class"),
-          Text("Create class"),
+          Text(
+            "Invite User",
+            style: blackTextFont.copyWith(fontSize: 18),
+          ),
+          InputField(
+            hintText: 'User email',
+            labelText: 'Email',
+            prefixIcon: Icon(LineIcons.edit, color: mainColor),
+            userInputController: emailController,
+            savedValue: (value) => emailInput = value!,
+            validator: (value) =>
+                (value!.isEmpty)
+                  ? 'Please input your email'
+                  : (!GetUtils.isEmail(value))
+                      ? 'Email invalid'
+                      : null,
+          ),
+          PrimaryButton(
+            text: "Done",
+            onPress: () {},
+          ),
         ],
       ),
     );

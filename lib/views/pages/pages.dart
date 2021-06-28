@@ -11,7 +11,6 @@ import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:popover/popover.dart';
 
 part 'register_page.dart';
 part 'login_page.dart';

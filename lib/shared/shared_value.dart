@@ -1,13 +1,13 @@
 part of "shared.dart";
 
-const APIHOST = "https://elearning-uin-arraniry.herokuapp.com";
-const loginPath = "/account/login";
-const registerPath = "/account/register";
-const classPath = "/classes";
+var apiHost = "https://elearning-uin-arraniry.herokuapp.com";
+var loginPath = "/account/login";
+var registerPath = "/account/register";
+var classPath = "/classes";
 
-final apiRegister = Uri.parse(APIHOST + registerPath);
-final apiLogin = Uri.parse(APIHOST + loginPath);
-final apiClass = Uri.parse(APIHOST + classPath);
+var apiRegister = Uri.parse(apiHost + registerPath);
+var apiLogin = Uri.parse(apiHost + loginPath);
+var apiClass = Uri.parse(apiHost + classPath);
 
 class DialogController extends GetxController {
   Future<Timer> startTimer(void Function() goTo) async {
