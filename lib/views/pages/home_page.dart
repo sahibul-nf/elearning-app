@@ -3,24 +3,33 @@ part of 'pages.dart';
 class HomePage extends StatelessWidget {
   HomePage({Key? key}) : super(key: key);
 
-  final _keyForm = GlobalKey<FormState>();
-  User user = Get.put(User());
+  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  UserController userController = Get.put(UserController());
+
+  openSlideDrawer() => _scaffoldKey.currentState!.openDrawer();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: bgColor,
       appBar: AppBar(
         backgroundColor: bgColor,
+        elevation: 1,
         title: Text(
           "Elec Learning",
           style: blackTextFont,
         ),
         leading: Padding(
           padding: const EdgeInsets.only(left: 20),
-          child: LineIcon(
-            LineIcons.bars,
-            color: blackColor,
+          child: GestureDetector(
+            child: LineIcon(
+              LineIcons.bars,
+              color: blackColor,
+            ),
+            onTap: () {
+              openSlideDrawer();
+            },
           ),
         ),
         actions: [
@@ -38,7 +47,7 @@ class HomePage extends StatelessWidget {
             child: Center(
               child: Obx(
                 () => Text(
-                  "Hi, ${user.username.toString()} 👋",
+                  "Hi, ${userController.username.toString()} 👋",
                   style: blackTextFont.copyWith(
                     fontSize: 18,
                     fontWeight: FontWeight.w500,
@@ -54,9 +63,110 @@ class HomePage extends StatelessWidget {
           SizedBox(width: 24),
         ],
       ),
-      body: Container(
-          // child: GridView.builder(gridDelegate: gridDelegate, itemBuilder: itemBuilder),
+      body: Scrollbar(
+        isAlwaysShown: true,
+        child: ListView(
+          children: [
+            Row(
+              children: [
+                SecondaryButton(
+                  title: "Assignment Class",
+                  icon: LineIcons.clipboardList,
+                  focus: true,
+                  color: secondColor,
+                  // backgroundColor: secondColor.withOpacity(0.03),
+                  onPress: () {},
+                  radius: BorderRadius.circular(20),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+      drawer: SlideDrawer(),
+    );
+  }
+}
+
+class SlideDrawer extends StatelessWidget {
+  const SlideDrawer({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final sizeScreen = MediaQuery.of(context).size;
+    return Container(
+      color: bgColor,
+      width: sizeScreen.width * 0.22,
+      padding: const EdgeInsets.only(right: 20),
+      child: ListView(
+        children: [
+          SizedBox(height: 10),
+          SecondaryButton(
+            title: "Class",
+            icon: LineIcons.home,
+            focus: true,
+            color: secondColor,
+            backgroundColor: secondColor.withOpacity(0.03),
+            radius: BorderRadius.only(
+              topRight: Radius.circular(20),
+              bottomRight: Radius.circular(20),
+            ),
+            onPress: () {},
           ),
+          SecondaryButton(
+            title: "Calendar",
+            icon: LineIcons.calendar,
+            focus: false,
+            color: secondColor,
+            // backgroundColor: greyColor.withOpacity(0.3),
+            radius: BorderRadius.only(
+              topRight: Radius.circular(20),
+              bottomRight: Radius.circular(20),
+            ),
+            onPress: () {},
+          ),
+          // class mengajar
+          teachClass(),
+
+          // class terdaftar
+          registeredClass(),
+
+          SecondaryButton(
+            title: "Archived Class",
+            icon: LineIcons.archive,
+            focus: false,
+            color: secondColor,
+            radius: BorderRadius.only(
+              topRight: Radius.circular(20),
+              bottomRight: Radius.circular(20),
+            ),
+            onPress: () {},
+          ),
+          SecondaryButton(
+            title: "Setting",
+            icon: LineIcons.americanSignLanguageInterpreting,
+            focus: false,
+            color: secondColor,
+            radius: BorderRadius.only(
+              topRight: Radius.circular(20),
+              bottomRight: Radius.circular(20),
+            ),
+            onPress: () {},
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget teachClass() {
+    return Column(
+      children: [],
+    );
+  }
+
+  Widget registeredClass() {
+    return Column(
+      children: [],
     );
   }
 }
@@ -87,10 +197,11 @@ class _ChoiseClassOptionState extends State<ChoiseClassOption> {
         children: [
           TextButton(
             onPressed: () {
+              Get.close(0);
               Get.defaultDialog(
                 title: '',
                 content: formInviteUser(),
-              );
+              ).timeout(Duration(seconds: 2));
             },
             child: Text(
               "Invite user",
@@ -100,10 +211,11 @@ class _ChoiseClassOptionState extends State<ChoiseClassOption> {
           SizedBox(height: 20),
           TextButton(
             onPressed: () {
+              // Get.close(0);
               Get.defaultDialog(
                 title: '',
                 content: formCreateClass(),
-              );
+              ).timeout(Duration(seconds: 2));
             },
             child: Text(
               "Create class",
@@ -117,15 +229,23 @@ class _ChoiseClassOptionState extends State<ChoiseClassOption> {
   }
 
   void validateForm() {
-    ClassService classService = Get.put(ClassService());
+    final classC = Get.put(ClassController());
+    final userC = Get.find<UserController>();
     final form = _keyForm.currentState;
 
     if (form!.validate()) {
       form.save();
 
       // ClassService.classes();
-      classService.createNewClass(
-        className: titleInput,
+      // ClassService().createNewClass(
+      //   className: titleInput,
+      // ).then((value) {
+      //   print(value.headers);
+      // });
+
+      classC.createClass(
+        titleInput,
+        userC.token,
       );
     }
   }
@@ -153,9 +273,9 @@ class _ChoiseClassOptionState extends State<ChoiseClassOption> {
             PrimaryButton(
               text: "Done",
               onPress: () {
-                setState(() {
+                // setState(() {
                   validateForm();
-                });
+                // });
               },
             ),
           ],
@@ -179,12 +299,11 @@ class _ChoiseClassOptionState extends State<ChoiseClassOption> {
             prefixIcon: Icon(LineIcons.edit, color: mainColor),
             userInputController: emailController,
             savedValue: (value) => emailInput = value!,
-            validator: (value) =>
-                (value!.isEmpty)
-                  ? 'Please input your email'
-                  : (!GetUtils.isEmail(value))
-                      ? 'Email invalid'
-                      : null,
+            validator: (value) => (value!.isEmpty)
+                ? 'Please input your email'
+                : (!GetUtils.isEmail(value))
+                    ? 'Email invalid'
+                    : null,
           ),
           PrimaryButton(
             text: "Done",

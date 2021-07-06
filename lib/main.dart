@@ -13,8 +13,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      // home: LoginPage(),
-      initialRoute: "/register",
+      initialRoute: "/login",
       getPages: [
         GetPage(
           name: "/login",

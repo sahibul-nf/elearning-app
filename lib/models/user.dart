@@ -1,10 +1,19 @@
 part of 'models.dart';
 
-class User extends GetxController {
-  var userID = "".obs;
-  var firstname = "".obs;
-  var lastname = "".obs;
-  var username = "".obs;
-  var email = "".obs;
-  var password = "".obs;
+class User {
+  String? id;
+  String? firstname;
+  String? lastname;
+  String? username;
+  String? email;
+  String? password;
+
+  User({
+    this.id,
+    this.firstname,
+    this.lastname,
+    this.email,
+    this.username,
+    this.password,
+  });
 }

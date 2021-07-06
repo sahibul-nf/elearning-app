@@ -34,6 +34,7 @@ class InputField extends StatelessWidget {
         cursorColor: greyColor,
         obscureText: secure,
         style: mainTextFont.copyWith(),
+        textInputAction: TextInputAction.next,
         decoration: InputDecoration(
           suffixIcon: suffixIcon,
           prefixIcon: prefixIcon,

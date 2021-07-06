@@ -8,3 +8,4 @@ part 'custom_dialog.dart';
 part 'input_field.dart';
 part 'card_class.dart';
 part 'primary_button.dart';
+part 'secondary_button.dart';
