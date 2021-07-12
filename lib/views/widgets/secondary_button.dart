@@ -8,6 +8,7 @@ class SecondaryButton extends StatelessWidget {
   void Function()? onPress;
   final backgroundColor;
   final radius;
+  double size;
 
   SecondaryButton({
     Key? key,
@@ -18,23 +19,21 @@ class SecondaryButton extends StatelessWidget {
     this.icon,
     this.onPress,
     this.radius,
+    this.size = 0,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextButton.icon(
       onPressed: onPress,
-      icon: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Icon(icon),
-      ),
+      icon: icon,
       autofocus: focus,
       label: Text(title),
       style: TextButton.styleFrom(
         primary: color,
         alignment: Alignment.centerLeft,
         backgroundColor: backgroundColor,
-        padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 24),
+        padding: EdgeInsets.symmetric(vertical: size, horizontal: size),
         shape: RoundedRectangleBorder(
           borderRadius: radius,
         ),

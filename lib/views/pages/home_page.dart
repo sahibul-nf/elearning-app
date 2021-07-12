@@ -1,12 +1,43 @@
 part of 'pages.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
 
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  UserController userController = Get.put(UserController());
+
+  UserController userC = Get.put(UserController());
 
   openSlideDrawer() => _scaffoldKey.currentState!.openDrawer();
+
+  int? id;
+
+  String? username;
+
+  String? aToken = '';
+
+  getDataPref() async {
+    final _sharePref = await SharedPreferences.getInstance();
+
+    userC.id = _sharePref.getInt('id').toString().obs;
+    userC.username = _sharePref.getString('username').toString().obs;
+
+    id = _sharePref.getInt('id');
+    username = _sharePref.getString('username');
+
+    aToken = _sharePref.getString('token');
+  }
+
+  @override
+  void initState() {
+    getDataPref();
+    print(userC.username);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +78,7 @@ class HomePage extends StatelessWidget {
             child: Center(
               child: Obx(
                 () => Text(
-                  "Hi, ${userController.username.toString()} 👋",
+                  "Hi, ${userC.username.toString()} 👋",
                   style: blackTextFont.copyWith(
                     fontSize: 18,
                     fontWeight: FontWeight.w500,
@@ -65,109 +96,95 @@ class HomePage extends StatelessWidget {
       ),
       body: Scrollbar(
         isAlwaysShown: true,
-        child: ListView(
-          children: [
-            Row(
-              children: [
-                SecondaryButton(
-                  title: "Assignment Class",
-                  icon: LineIcons.clipboardList,
-                  focus: true,
-                  color: secondColor,
-                  // backgroundColor: secondColor.withOpacity(0.03),
-                  onPress: () {},
-                  radius: BorderRadius.circular(20),
-                ),
-              ],
-            ),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: ListView(
+            children: [
+              Row(
+                children: [
+                  SizedBox(width: 20),
+                  SecondaryButton(
+                    title: "Assignment Class",
+                    icon: Icon(LineIcons.clipboardList),
+                    focus: false,
+                    color: secondColor,
+                    // backgroundColor: secondColor.withOpacity(0.03),
+                    radius: BorderRadius.circular(20),
+                    size: 16,
+                    onPress: () {},
+                  ),
+                  SizedBox(width: 20),
+                  SecondaryButton(
+                    title: "To be Checked",
+                    icon: Icon(LineIcons.checkSquareAlt),
+                    focus: false,
+                    color: secondColor,
+                    // backgroundColor: secondColor.withOpacity(0.03),
+                    radius: BorderRadius.circular(20),
+                    size: 16,
+                    onPress: () {},
+                  ),
+                  SizedBox(width: 20),
+                  SecondaryButton(
+                    title: "Calendar",
+                    icon: Icon(LineIcons.calendarCheck),
+                    focus: false,
+                    color: secondColor,
+                    // backgroundColor: secondColor.withOpacity(0.03),
+                    radius: BorderRadius.circular(20),
+                    size: 16,
+                    onPress: () {},
+                  ),
+                ],
+              ),
+              SizedBox(height: 20),
+              Wrap(
+                spacing: 16,
+                runSpacing: 16,
+                alignment: WrapAlignment.start,
+                children: listClassCard(),
+              ),
+            ],
+          ),
         ),
       ),
       drawer: SlideDrawer(),
     );
   }
-}
 
-class SlideDrawer extends StatelessWidget {
-  const SlideDrawer({Key? key}) : super(key: key);
+  List<Widget> listClassCard() {
+    List<Widget> list = [];
 
-  @override
-  Widget build(BuildContext context) {
-    final sizeScreen = MediaQuery.of(context).size;
-    return Container(
-      color: bgColor,
-      width: sizeScreen.width * 0.22,
-      padding: const EdgeInsets.only(right: 20),
-      child: ListView(
-        children: [
-          SizedBox(height: 10),
-          SecondaryButton(
-            title: "Class",
-            icon: LineIcons.home,
-            focus: true,
-            color: secondColor,
-            backgroundColor: secondColor.withOpacity(0.03),
-            radius: BorderRadius.only(
-              topRight: Radius.circular(20),
-              bottomRight: Radius.circular(20),
-            ),
-            onPress: () {},
-          ),
-          SecondaryButton(
-            title: "Calendar",
-            icon: LineIcons.calendar,
-            focus: false,
-            color: secondColor,
-            // backgroundColor: greyColor.withOpacity(0.3),
-            radius: BorderRadius.only(
-              topRight: Radius.circular(20),
-              bottomRight: Radius.circular(20),
-            ),
-            onPress: () {},
-          ),
-          // class mengajar
-          teachClass(),
+    final _random = Random();
+    List<String> titles = [
+      "Machine Learning",
+      "Neural Network",
+      "Java",
+      "Flutter",
+    ];
 
-          // class terdaftar
-          registeredClass(),
+    List<Color?> colors = [
+      mainColor,
+      secondColor,
+      successColor,
+      errorColor,
+      textNumberColor,
+      Colors.purple[200]
+    ];
 
-          SecondaryButton(
-            title: "Archived Class",
-            icon: LineIcons.archive,
-            focus: false,
-            color: secondColor,
-            radius: BorderRadius.only(
-              topRight: Radius.circular(20),
-              bottomRight: Radius.circular(20),
-            ),
-            onPress: () {},
-          ),
-          SecondaryButton(
-            title: "Setting",
-            icon: LineIcons.americanSignLanguageInterpreting,
-            focus: false,
-            color: secondColor,
-            radius: BorderRadius.only(
-              topRight: Radius.circular(20),
-              bottomRight: Radius.circular(20),
-            ),
-            onPress: () {},
-          ),
-        ],
-      ),
-    );
-  }
+    var card;
+    String title;
+    var color;
 
-  Widget teachClass() {
-    return Column(
-      children: [],
-    );
-  }
+    for (var i = 0; i < 8; i++) {
+      title = titles[_random.nextInt(titles.length)];
+      color = colors[_random.nextInt(colors.length)];
 
-  Widget registeredClass() {
-    return Column(
-      children: [],
-    );
+      card = CardClass(title: title, colorTheme: color, username: "");
+      list.add(card);
+    }
+
+    return list;
   }
 }
 
@@ -189,6 +206,33 @@ class _ChoiseClassOptionState extends State<ChoiseClassOption> {
 
   String? emailInput;
 
+  String? aToken = '';
+
+  int? id;
+
+  String? username;
+
+  UserController userC = Get.put(UserController());
+
+  getDataPref() async {
+    final _sharePref = await SharedPreferences.getInstance();
+
+    userC.id = _sharePref.getInt('id').toString().obs;
+    userC.username = _sharePref.getString('username').toString().obs;
+
+    id = _sharePref.getInt('id');
+    username = _sharePref.getString('username');
+
+    aToken = _sharePref.getString('token');
+  }
+
+  @override
+  void initState() {
+    getDataPref();
+    print(userC.username);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -201,7 +245,7 @@ class _ChoiseClassOptionState extends State<ChoiseClassOption> {
               Get.defaultDialog(
                 title: '',
                 content: formInviteUser(),
-              ).timeout(Duration(seconds: 2));
+              );
             },
             child: Text(
               "Invite user",
@@ -211,7 +255,7 @@ class _ChoiseClassOptionState extends State<ChoiseClassOption> {
           SizedBox(height: 20),
           TextButton(
             onPressed: () {
-              // Get.close(0);
+              Get.close(0);
               Get.defaultDialog(
                 title: '',
                 content: formCreateClass(),
@@ -245,7 +289,7 @@ class _ChoiseClassOptionState extends State<ChoiseClassOption> {
 
       classC.createClass(
         titleInput,
-        userC.token,
+        aToken.toString(),
       );
     }
   }
@@ -274,7 +318,7 @@ class _ChoiseClassOptionState extends State<ChoiseClassOption> {
               text: "Done",
               onPress: () {
                 // setState(() {
-                  validateForm();
+                validateForm();
                 // });
               },
             ),

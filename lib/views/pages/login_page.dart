@@ -41,9 +41,8 @@ class _LoginPageState extends State<LoginPage> {
 
   void validateForm() {
     // AuthUserService authService = Get.put(AuthUserService());
-    // User user = Get.put(User());
     UserController userC = Get.put(UserController());
-    var cookieJar = CookieJar();
+    // var cookieJar = CookieJar();
 
     final form = _keyForm.currentState;
 
@@ -57,7 +56,11 @@ class _LoginPageState extends State<LoginPage> {
       // dio.interceptors.add(CookieManager(cookieJar));
 
       userC.userLogin(emailInput, passwordInput);
-      
+
+      // APIService().login(
+      //   email: emailInput,
+      //   password: passwordInput,
+      // ).then((value) => print(value.body));
     }
   }
 

@@ -1,3 +1,4 @@
+import 'package:elearning_app/routes/routes.dart';
 import 'package:elearning_app/views/pages/pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
@@ -13,21 +14,9 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      initialRoute: "/login",
-      getPages: [
-        GetPage(
-          name: "/login",
-          page: () => LoginPage(),
-        ),
-        GetPage(
-          name: "/register",
-          page: () => RegisterPage(),
-        ),
-        GetPage(
-          name: "/home",
-          page: () => HomePage(),
-        )
-      ],
+      initialRoute: RouteName.classs,
+      home: LoginPage(),
+      getPages: RoutePage.pages,
     );
   }
 }
