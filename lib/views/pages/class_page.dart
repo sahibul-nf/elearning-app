@@ -9,21 +9,22 @@ class ClassPage extends StatelessWidget {
   openSlideDrawer() => scaffoldKey.currentState!.openDrawer();
 
   final List<Tab> myTabs = <Tab>[
-    Tab(text: "Forum", 
-    // child: Text("Forum", style: blackTextFont), 
+    Tab(
+      text: "Forum",
+      // child: Text("Forum", style: blackTextFont),
     ),
     Tab(
       text: "Assigment",
       // child: Text("Class Assigment", style: blackTextFont),
-      ),
+    ),
     Tab(
       text: "Member",
       // child: Text("Member", style: blackTextFont)
-      ),
+    ),
     Tab(
       text: "Score",
       // child: Text("Score", style: blackTextFont)
-      ),
+    ),
   ];
 
   @override
@@ -52,18 +53,21 @@ class ClassPage extends StatelessWidget {
             children: [
               SizedBox(width: 20),
               GestureDetector(
-                child: LineIcon(
-                  LineIcons.bars,
-                  color: blackColor,
-                ),
-                onTap: () {
-                  openSlideDrawer();
-                },
+            child: MouseRegion(
+              cursor: SystemMouseCursors.click,
+              child: LineIcon(
+                LineIcons.bars,
+                color: blackColor,
               ),
+            ),
+            onTap: () {
+              openSlideDrawer();
+            },
+          ),
               SizedBox(width: 20),
               Obx(
                 () => Text(
-                  "${userC.username.toString()}",
+                  "${userC.id.toString()}",
                   style: blackTextFont.copyWith(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
@@ -74,12 +78,16 @@ class ClassPage extends StatelessWidget {
           ),
           actions: [
             GestureDetector(
-              child: LineIcon(LineIcons.cog, color: blackColor),
+              child: MouseRegion(
+                cursor: SystemMouseCursors.click,
+                child: LineIcon(LineIcons.cog, color: blackColor),
+              ),
               onTap: () {
-                Get.defaultDialog(
-                  title: '',
-                  content: ChoiseClassOption(),
-                );
+                // Get.defaultDialog(
+                //   title: '',
+                //   content: ChoiseClassOption(),
+                // );
+                Get.to(EmptyWidget());
               },
             ),
             SizedBox(width: 30),
@@ -106,15 +114,9 @@ class ClassPage extends StatelessWidget {
         body: TabBarView(
           children: [
             ForumPage(),
-            Container(
-              child: Text("he"),
-            ),
-            Container(
-              child: Text("he"),
-            ),
-            Container(
-              child: Text("he"),
-            ),
+            TaskPage(),
+            MemberPage(),
+            ScorePage(),
           ],
         ),
         drawer: SlideDrawer(),

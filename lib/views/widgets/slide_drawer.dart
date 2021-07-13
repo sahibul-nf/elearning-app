@@ -29,6 +29,7 @@ class SlideDrawer extends StatelessWidget {
               ),
               size: 24,
               onPress: () {
+                Get.close(1);
                 Get.toNamed(RouteName.home);
               },
             ),
@@ -47,7 +48,10 @@ class SlideDrawer extends StatelessWidget {
               ),
               size: 24,
 
-              onPress: () {},
+              onPress: () {
+                Get.close(1);
+                Get.to(EmptyWidget());
+              },
             ),
             // class mengajar
             teachClass(),
@@ -68,7 +72,11 @@ class SlideDrawer extends StatelessWidget {
                 bottomRight: Radius.circular(20),
               ),
               size: 24,
-              onPress: () {},
+              onPress: () {
+                Get.close(1);
+
+                Get.to(EmptyWidget());
+              },
             ),
             SecondaryButton(
               title: "Setting",
@@ -83,7 +91,10 @@ class SlideDrawer extends StatelessWidget {
                 bottomRight: Radius.circular(20),
               ),
               size: 24,
-              onPress: () {},
+              onPress: () {
+                Get.close(1);
+                Get.to(EmptyWidget());
+              },
             ),
           ],
         ),

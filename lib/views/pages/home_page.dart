@@ -48,15 +48,18 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: bgColor,
         elevation: 1,
         title: Text(
-          "Elec Learning",
+          "e-Learning",
           style: blackTextFont,
         ),
         leading: Padding(
           padding: const EdgeInsets.only(left: 20),
           child: GestureDetector(
-            child: LineIcon(
-              LineIcons.bars,
-              color: blackColor,
+            child: MouseRegion(
+              cursor: SystemMouseCursors.click,
+              child: LineIcon(
+                LineIcons.bars,
+                color: blackColor,
+              ),
             ),
             onTap: () {
               openSlideDrawer();
@@ -65,7 +68,10 @@ class _HomePageState extends State<HomePage> {
         ),
         actions: [
           GestureDetector(
-            child: LineIcon(LineIcons.plus, color: blackColor),
+            child: MouseRegion(
+              cursor: SystemMouseCursors.click,
+              child: LineIcon(LineIcons.plus, color: blackColor),
+            ),
             onTap: () {
               Get.defaultDialog(
                 title: '',
@@ -111,7 +117,9 @@ class _HomePageState extends State<HomePage> {
                     // backgroundColor: secondColor.withOpacity(0.03),
                     radius: BorderRadius.circular(20),
                     size: 16,
-                    onPress: () {},
+                    onPress: () {
+                      Get.to(EmptyWidget());
+                    },
                   ),
                   SizedBox(width: 20),
                   SecondaryButton(
@@ -122,7 +130,9 @@ class _HomePageState extends State<HomePage> {
                     // backgroundColor: secondColor.withOpacity(0.03),
                     radius: BorderRadius.circular(20),
                     size: 16,
-                    onPress: () {},
+                    onPress: () {
+                      Get.to(EmptyWidget());
+                    },
                   ),
                   SizedBox(width: 20),
                   SecondaryButton(
@@ -133,7 +143,9 @@ class _HomePageState extends State<HomePage> {
                     // backgroundColor: secondColor.withOpacity(0.03),
                     radius: BorderRadius.circular(20),
                     size: 16,
-                    onPress: () {},
+                    onPress: () {
+                      Get.to(EmptyWidget());
+                    },
                   ),
                 ],
               ),
@@ -156,29 +168,16 @@ class _HomePageState extends State<HomePage> {
     List<Widget> list = [];
 
     final _random = Random();
-    List<String> titles = [
-      "Machine Learning",
-      "Neural Network",
-      "Java",
-      "Flutter",
-    ];
 
-    List<Color?> colors = [
-      mainColor,
-      secondColor,
-      successColor,
-      errorColor,
-      textNumberColor,
-      Colors.purple[200]
-    ];
+    var data = DataDummy();
 
     var card;
     String title;
     var color;
 
     for (var i = 0; i < 8; i++) {
-      title = titles[_random.nextInt(titles.length)];
-      color = colors[_random.nextInt(colors.length)];
+      title = data.titles[_random.nextInt(data.titles.length)];
+      color = data.colors[_random.nextInt(data.colors.length)];
 
       card = CardClass(title: title, colorTheme: color, username: "");
       list.add(card);

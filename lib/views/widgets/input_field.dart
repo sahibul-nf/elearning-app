@@ -9,6 +9,7 @@ class InputField extends StatelessWidget {
   final bool secure;
   final String? Function(String?)? validator;
   final void Function(String?)? savedValue;
+  final double marginTop;
 
   const InputField({
     Key? key,
@@ -20,13 +21,14 @@ class InputField extends StatelessWidget {
     this.secure = false,
     this.validator,
     this.savedValue,
+    this.marginTop = 16,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 80,
-      margin: EdgeInsets.only(top: 16),
+      margin: EdgeInsets.only(top: marginTop),
       child: TextFormField(
         controller: userInputController,
         validator: validator,

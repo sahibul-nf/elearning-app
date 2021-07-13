@@ -61,10 +61,15 @@ class CardClass extends StatelessWidget {
                               fontSize: 18,
                             ),
                           ),
-                          Icon(
-                            LineIcons.verticalEllipsis,
-                            color: bgColor,
-                            size: 30,
+                          GestureDetector(
+                            onTap: () {
+                              Get.toNamed(RouteName.login);
+                            },
+                            child: Icon(
+                              LineIcons.verticalEllipsis,
+                              color: bgColor,
+                              size: 30,
+                            ),
                           ),
                         ],
                       ),
