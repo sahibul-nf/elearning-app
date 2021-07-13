@@ -96,7 +96,7 @@ class _RegisterPageState extends State<RegisterPage> {
             width: sizeScreen.width,
             child: Center(
               child: Image.asset(
-                "assets/illus/Education-Illustration-Kit-09.png",
+                "assets/illus/Education-Illustration-Kit-01.png",
                 height: sizeScreen.height * 0.8,
               ),
             ),
